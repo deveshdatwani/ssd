@@ -4,22 +4,15 @@ from torch.optim import optimizer
 from torchvision.models import resnet18
 
 
-class SSD():
-    def __init__(self, ):
+class SSD(nn.Module):
+    def __init__(self):
+        super().__init__()
         self.backboneNetwork = resnet18(weights='DEFAULT') 
 
     def forward(self, x):
-        loc = None
-        classification  = None
-        
-        return loc, classification
-
-    def train(self):
-        return None
-
-    def eval(self):
-        return self.backboneNetwork.eval
-
+        backboneOutput = self.backboneNetwork(x) 
+        return backboneOutput
+    
 
 if __name__ == "__main__":
     model = SSD()
