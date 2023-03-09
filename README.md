@@ -1,5 +1,3 @@
-# ssd
+## YOLO 
 
-building the single shot detector network for multi object detection 
-
-dataset - coco
+This repository is for documenting my implementation of yolo v1 multi object detection neural network
