@@ -12,7 +12,7 @@ Let's visualze 25 images from the dataset. For this, I created a class for visua
 
 Let's run it
 
-<img src="https://raw.githubusercontent.com/deveshdatwani/yolo/main/assets/datasetVisualizer.png" height=500, width=600>
+<img src="https://raw.githubusercontent.com/deveshdatwani/yolo/main/assets/datasetVisualizer.png" height=400, width=800 align="center">
 
 
 
