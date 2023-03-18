@@ -12,7 +12,7 @@ Let's visualze 25 images from the dataset. For this, I created a class for visua
 
 Let's run it!
 
-<p style="align:centre"><img src="https://raw.githubusercontent.com/deveshdatwani/yolo/main/assets/datasetVisualizer.png" height=400, width=800></p>
+<p align="centre"><img align="centre" src="https://raw.githubusercontent.com/deveshdatwani/yolo/main/assets/datasetVisualizer.png" height=400, width=800></p>
 
 The images appear to be of different sizes. Therefore there will be some pre-processing needed before feeding each to the network. Or perhaps not, if the network is fully-convolution. I will update these lines once I read the paper today. 
 
