@@ -29,7 +29,7 @@ I wrote a small script on Jupyter notebook to visualize annotation / labels on a
 
 Let's run it to see! 
 
-<div style="align:center; margin:auto"><img src="https://raw.githubusercontent.com/deveshdatwani/yolo/main/assets/labels.png" height=200, width=400></div>
+<p style="align:center; margin:auto"><img src="https://raw.githubusercontent.com/deveshdatwani/yolo/main/assets/labels.png" height=200, width=400></p>
 
 Okay so have two locomotives in this sample image.
 
