@@ -1,5 +1,8 @@
 """ 
+author: devesh datwani
 
-Module for implementing utils
-
+Utils for clean code
 """
+
+def nothing():
+    return None

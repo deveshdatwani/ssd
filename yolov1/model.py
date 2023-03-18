@@ -4,7 +4,7 @@ from torch import nn
 
 
 
-class Model(nn.module):
+class YOLO(nn.module):
     """ 
     author: devesh datwani
 

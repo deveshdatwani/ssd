@@ -45,8 +45,9 @@ if __name__ == "__main__":
 
     # For testing purposes
     trainset = imageDataset()
-    ix_image, ix_label = trainset[400]
-    print(ix_label)
-    print(ix_label.shape)
-    plt.imshow(np.transpose(ix_image, axes=[1, 2, 0]))
-    plt.show()
+    # print(trainset.__len__())
+    # ix_image, ix_label = trainset[400]
+    # print(ix_label)
+    # print(ix_label.shape)
+    # plt.imshow(np.transpose(ix_image, axes=[1, 2, 0]))
+    # plt.show()
