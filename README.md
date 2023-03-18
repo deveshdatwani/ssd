@@ -29,6 +29,14 @@ I wrote a small script on Jupyter notebook to visualize annotation / labels on a
 
 Let's run it to see! 
 
-<img src="https://raw.githubusercontent.com/deveshdatwani/yolo/main/assets/labels.png" height=400, width=800 align="center">
+<img src="https://raw.githubusercontent.com/deveshdatwani/yolo/main/assets/labels.png" height=200, width=400 align="center">
 
-We have two trains in this image.  
+We have two trains in this image.
+
+The label format is as follows -> 
+
+center coordinates: x:float, y:float
+height = float
+width = float
+
+These values are normalized to the image dimensions. 
