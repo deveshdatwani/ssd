@@ -35,23 +35,21 @@ Okay so have two locomotives in this sample image.
 
 The label formatting is as follows -> 
 
-center coordinates: 
+<i>centre x:float</i> 
 
-x:float 
+<i>centre y:float</i>
 
-y:float
+<i>height: float</i>
 
-height:
-
-h: float
-
-width: 
-
-w: float
+<i>width: float</i>
 
 These values are normalized to the image dimensions. 
 
 
 ### Model 
 
-Constructing the YOLO model is a fairly straightforward task. The 
+Constructing the YOLO model is a fairly straightforward task. The model architecture from the paper can be seen below 
+
+Link to paper: https://arxiv.org/abs/1506.02640
+
+<p align="center"><img align="center" src="https://raw.githubusercontent.com/deveshdatwani/yolo/main/assets/network.png" height=300, width=500></p>
