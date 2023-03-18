@@ -4,6 +4,7 @@ import argparse
 from model import YOLO
 from torch.optim import SGD
 from utils import *
+import os
 
 
 
@@ -29,7 +30,13 @@ class yoloTrainer():
         self._save_folder = save_folder
         self._weight_decay = weight_decay
         self._pre_train = True
+        self._weight_file = os.path.join(self._save_folder, "yolo.h5")
 
+
+    def load_weights(self, model):
+        # load weights here
+        
+        return model
 
     def loss(self):
         return None 
@@ -37,18 +44,28 @@ class yoloTrainer():
 
     def criterion(self):
         return None
+    
+    
+    def interation(self):
+        return None
 
 
     def train(self):
         model = YOLO()
         print("Looking for weights in weight folder")
         
-        if not self._save_folder:
-            print("No weights found, starting training")
+        if not os.path.isfile(self._weight_file):
+            print("No weights found, initializing training")
+        else:
+            model.load_state_dict(torch.load(self._weight_file))
+            print("Pretrained the model")
         
         self._optimizer = SGD(model.parameters(), self._learning_rate, self._momentum, weight_decay=self._weight_decay)
 
-        return None
+        for epoch in range(self._epochs):
+            loss = None
+
+        return model
 
 
 
@@ -66,7 +83,5 @@ if __name__ == "__main__":
     trainer = yoloTrainer(args.batch_size, args.epochs, args.learning_rate,
                           args.momentum, args.num_workers, args.weight_decay)
     
-    print(trainer._weight_decay)
-    
-    # trainer.train()
+    model = trainer.train()
     
