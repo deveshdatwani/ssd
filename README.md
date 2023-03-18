@@ -19,6 +19,16 @@ The images appear to be of different sizes. Therefore there will be some pre-pro
 
 ### Annotations
 
-Now let's take a look at the annotations. They're store in a CSV file format which 
+Now let's take a look at the annotations. 
 
+There is a linker in a csv file named train.csv / test.csv which links image names to its labels which are store in a txt file. 
 
+The lables are essentially a txt file with variable row size. The entries in each row is space delimited by spaces. The first entry is the class label. There are 4 more floating point values after this which correspoding to the bounding box coordinates. 
+
+I wrote a small script on Jupyter notebook to visualize annotation / labels on a random image on the dataset. I might add this functionality to the datasetVisualizer class later and make it modular and flexible.
+
+Let's run it to see! 
+
+<img src="https://raw.githubusercontent.com/deveshdatwani/yolo/main/assets/labels.png" height=400, width=800 align="center">
+
+We have two trains in this image.  
