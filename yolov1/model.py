@@ -1,11 +1,3 @@
-""" 
-
-Building the model architecture here
-Author: Devesh Datwani
-Date: March 09, 2023
-MIT License
-
-"""
 
 import torch
 from torch import nn
@@ -13,7 +5,12 @@ from torch import nn
 
 
 class Model(nn.module):
+    """ 
+    author: devesh datwani
 
+    This class builds the model
+
+    """
 
     def __init__(self):
         return

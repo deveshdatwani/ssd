@@ -17,6 +17,8 @@ Let's run it!
 The images appear to be of different sizes. Therefore there will be some pre-processing needed before feeding each to the network. Or perhaps not, if the network is fully-convolution. I will update these lines once I read the paper today. 
 
 
+### Annotations
 
+Now let's take a look at the annotations. They're store in a CSV file format which 
 
 
