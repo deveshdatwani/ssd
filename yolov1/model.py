@@ -8,7 +8,9 @@ class Model(nn.module):
     """ 
     author: devesh datwani
 
-    This class builds the model
+    This class builds a pytorch model based on the first version of YOLO network
+    This class will be pretty inflexible and pretty straightforward
+    Thereforce, no choice of backbone, 
 
     """
 
@@ -17,6 +19,6 @@ class Model(nn.module):
     
 
     def forward(self, x):
-        return y
+        return x
 
 
