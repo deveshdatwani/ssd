@@ -25,18 +25,28 @@ There is a linker in a csv file named train.csv / test.csv which links image nam
 
 The lables are essentially a txt file with variable row size. The entries in each row is space delimited by spaces. The first entry is the class label. There are 4 more floating point values after this which correspoding to the bounding box coordinates. 
 
-I wrote a small script on Jupyter notebook to visualize annotation / labels on a random image on the dataset. I might add this functionality to the datasetVisualizer class later and make it modular and flexible.
+I wrote a small script on Jupyter notebook to visualize annotation / labels on a random image on the dataset. This script randomly selects a sample from the dataset and draws bounding boxes on them with opencv. I might add this functionality to the datasetVisualizer class later and make it modular and flexible.
 
 Let's run it to see! 
 
 <div style="text-align:center; margin:auto"><img src="https://raw.githubusercontent.com/deveshdatwani/yolo/main/assets/labels.png" height=200, width=400></div>
 
-We have two trains in this image.
+Okay so have two locomotives in this sample image.
 
-The label format is as follows -> 
+The label formatting is as follows -> 
 
-center coordinates: x:float, y:float
-height = float
-width = float
+center coordinates: 
+
+x:float 
+
+y:float
+
+height:
+
+h: float
+
+width: 
+
+w: float
 
 These values are normalized to the image dimensions. 
