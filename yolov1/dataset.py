@@ -3,6 +3,7 @@ import pandas as pd
 from torchvision.io import read_image
 import os
 import numpy as np
+from matplotlib import pyplot as plt
 
 
 class imageDataset(Dataset):
@@ -41,6 +42,11 @@ class imageDataset(Dataset):
     
 
 if __name__ == "__main__":
+
+    # For testing purposes
     trainset = imageDataset()
-    ix_image, ix_label = trainset[200]
+    ix_image, ix_label = trainset[400]
     print(ix_label)
+    print(ix_label.shape)
+    plt.imshow(np.transpose(ix_image, axes=[1, 2, 0]))
+    plt.show()

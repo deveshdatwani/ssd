@@ -49,6 +49,7 @@ class dataVisualizer():
 
 
 if __name__ == "__main__":
+    #For testing purposes
     dataset_address = "/home/deveshdatwani/Datasets/voc/images"
     visualizer = dataVisualizer(data_directory=dataset_address) 
     visualizer.visualize()
