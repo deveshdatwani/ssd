@@ -12,7 +12,7 @@ Let's visualze 25 images from the dataset. For this, I created a class for visua
 
 Let's run it!
 
-<p align="centre"><img align="centre" src="https://raw.githubusercontent.com/deveshdatwani/yolo/main/assets/datasetVisualizer.png" height=400, width=800></p>
+<p align="centre"><img align="centre" src="https://raw.githubusercontent.com/deveshdatwani/yolo/main/assets/datasetVisualizer.png" height=400, width=600></p>
 
 The images appear to be of different sizes. Therefore there will be some pre-processing needed before feeding each to the network. Or perhaps not, if the network is fully-convolution. I will update these lines once I read the paper today. 
 
@@ -29,7 +29,7 @@ I wrote a small script on Jupyter notebook to visualize annotation / labels on a
 
 Let's run it to see! 
 
-<p align="center"><img align="center" src="https://raw.githubusercontent.com/deveshdatwani/yolo/main/assets/labels.png" height=200, width=400></p>
+<p align="center"><img align="center" src="https://raw.githubusercontent.com/deveshdatwani/yolo/main/assets/labels.png" height=300, width=500></p>
 
 Okay so have two locomotives in this sample image.
 
