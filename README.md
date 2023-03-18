@@ -29,7 +29,7 @@ I wrote a small script on Jupyter notebook to visualize annotation / labels on a
 
 Let's run it to see! 
 
-<p align="center"><img align="center" src="https://raw.githubusercontent.com/deveshdatwani/yolo/main/assets/labels.png" height=300, width=500></p>
+<p align="center"><img align="center" src="https://raw.githubusercontent.com/deveshdatwani/yolo/main/assets/labels.png" height=400, width=600></p>
 
 Okay so have two locomotives in this sample image.
 
@@ -50,3 +50,8 @@ width:
 w: float
 
 These values are normalized to the image dimensions. 
+
+
+### Model 
+
+Constructing the YOLO model is a fairly straightforward task. The 
