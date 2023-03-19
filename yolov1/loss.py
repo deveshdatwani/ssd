@@ -2,6 +2,7 @@ from torch import nn
 from model import YOLO
 from torchvision.io import read_image
 from torchvision.transforms import Resize
+from torch.nn import MSELoss
 
 
 class Criterion(nn.Module):
@@ -20,15 +21,22 @@ class Criterion(nn.Module):
         self.C = C
         self.im_wdith = im_width
         self.im_height = im_height
+        self.mse_loss = MSELoss(reduction="sum")
 
-    def __forward__(self, x_output, target):
-        loss = x_output - target
+    def __forward__(self, predictions, target):
+        loss = predictions - target
+        coordinate_loss = self.coordinate_loss(predictions, target)
 
         return loss
     
     def IOU(self, x_output, target):
         
         return None
+    
+    def coordinate_loss(self):
+        loss = 0
+
+        return loss
 
 
 if __name__ == "__main__":
