@@ -51,36 +51,51 @@ class YOLO(nn.Module):
 
     def forward(self, x) :
         x = self.c_layer1(x)
+        x = self.leaky_relu(x)
         x = self.mp_layer1(x)
         x = self.c_layer2(x)
+        x = self.leaky_relu(x)
         x = self.mp_layer1(x)
         x = self.c_layer3(x)
+        x = self.leaky_relu(x)
         x = self.c_layer4(x)
+        x = self.leaky_relu(x)
         x = self.c_layer5(x)
+        x = self.leaky_relu(x)
         x = self.c_layer6(x)
+        x = self.leaky_relu(x)
         x = self.mp_layer1(x)
         
         # x4
         for i in range(4):
             x = self.c_layer7(x)
+            x = self.leaky_relu(x)
             x = self.c_layer8(x)
+            x = self.leaky_relu(x)
 
         x = self.c_layer9(x)
+        x = self.leaky_relu(x)
         x = self.c_layer10(x)
+        x = self.leaky_relu(x)
         x = self.mp_layer1(x)
 
         # x2
         for i in range(2):
             x = self.c_layer11(x)
+            x = self.leaky_relu(x)
             x = self.c_layer12(x)
+            x = self.leaky_relu(x)
 
         x = self.c_layer13(x)
+        x = self.leaky_relu(x)
         x = self.c_layer14(x)
+        x = self.leaky_relu(x)
         x = self.c_layer14(x)
+        x = self.leaky_relu(x)
         x = self.flatten(x)
-        x = self.linear1(x) 
+        x = self.linear1(x)
+        x = self.leaky_relu(x) 
         x = self.linear2(x)
-        x = x.view(30, 7, 7)
 
         return x
 
