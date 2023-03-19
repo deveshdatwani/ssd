@@ -2,7 +2,7 @@
 import torch
 from torch import nn
 from torch.functional import F
-from torch.nn import Conv2d, MaxPool2d, LeakyReLU
+from torch.nn import Conv2d, MaxPool2d, LeakyReLU, BatchNorm2d, Linear, Flatten
 from torchvision.io import read_image
 from torchvision.transforms import Resize
 from matplotlib import pyplot as plt
@@ -21,6 +21,7 @@ class YOLO(nn.Module):
 
     def __init__(self):
         super(YOLO, self).__init__()
+
         self.c_layer1 = Conv2d(3, 64, 7, 2, padding=3)
         self.c_layer2 = Conv2d(64, 192, 3, 1, padding='same')
         self.c_layer3 = Conv2d(192, 128, 1, 1, padding='same')
@@ -35,16 +36,20 @@ class YOLO(nn.Module):
         self.c_layer12 = Conv2d(512, 1024, 3, 1, padding='same')               
         self.c_layer13 = Conv2d(1024, 1024, 3, 2, padding=1)
         self.c_layer14 = Conv2d(1024, 1024, 3, 1, padding='same')
-        self.c_layer15 = Conv2d(1024, 4096, 7, 1)
-        self.c_layer16 = Conv2d(1024, 30)
         
+        self.linear1 = Linear(7*7*1024, 1024)
+        self.linear2 = Linear(1024, 7*7*30)
+
         self.mp_layer1 = MaxPool2d(2, stride=2)
 
-        self.leaky_relu = LeakyReLU(0.01)
+        self.leaky_relu = LeakyReLU(0.1)
+        
+        self.flatten = Flatten(0, -1)
+
+        # self.batchnorm = BatchNorm2d()
         
 
     def forward(self, x) :
-        print(x.shape)
         x = self.c_layer1(x)
         x = self.mp_layer1(x)
         x = self.c_layer2(x)
@@ -72,7 +77,10 @@ class YOLO(nn.Module):
         x = self.c_layer13(x)
         x = self.c_layer14(x)
         x = self.c_layer14(x)
-        x = self.c_layer15(x)
+        x = self.flatten(x)
+        x = self.linear1(x) 
+        x = self.linear2(x)
+        x = x.view(30, 7, 7)
 
         return x
 
@@ -84,8 +92,7 @@ if __name__ == "__main__":
         image = read_image("/home/deveshdatwani/plane.jpg")
         resized_image = Resize((448, 448), antialias=True)(image)
         out = model(resized_image.float())
-        print(out.shape)
-
+        
         return None
 
     test()
