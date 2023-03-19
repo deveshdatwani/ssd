@@ -2,6 +2,10 @@
 import torch
 from torch import nn
 from torch.functional import F
+from torch.nn import Conv2d, MaxPool2d
+from torchvision.io import read_image
+from torchvision.transforms import Resize
+from matplotlib import pyplot as plt
 
 
 
@@ -17,21 +21,65 @@ class YOLO(nn.Module):
 
     def __init__(self):
         super(YOLO, self).__init__()
-        self.conv1 = nn.Conv2d(3, 6, 5)
-        self.pool = nn.MaxPool2d(2, 2)
-        self.conv2 = nn.Conv2d(6, 16, 5)
-        self.fc1 = nn.Linear(16 * 5 * 5, 120)
-        self.fc2 = nn.Linear(120, 84)
-        self.fc3 = nn.Linear(84, 10)
+        self.c_layer1 = Conv2d(3, 64, 7, 2, padding=3)
+        self.c_layer2 = Conv2d(64, 192, 3, 1, padding='same')
+        self.c_layer3 = Conv2d(192, 128, 1, 1, padding='same')
+        self.c_layer4 = Conv2d(128, 256, 3, 1, padding='same')
+        self.c_layer5 = Conv2d(256, 256, 1, 1, padding='same')
+        self.c_layer6 = Conv2d(256, 512, 3, 1, padding='same')
+        self.c_layer7 = Conv2d(512, 256, 1, 1, padding='same')
+        self.c_layer8 = Conv2d(256, 512, 3, 1, padding='same')
+        self.c_layer9 = Conv2d(512, 512, 1, 1, padding='same')
+        self.c_layer10 = Conv2d(512, 1024, 3, 1, padding='same')
+        self.c_layer11 = Conv2d(1024, 512, 1, 1, padding='same')
+        self.c_layer12 = Conv2d(512, 1024, 3, 1, padding='same')               
+        self.c_layer13 = Conv2d(1024, 1024, 3, 2, padding=1)
+        self.c_layer14 = Conv2d(1024, 1024, 3, 1, padding='same')
+        self.c_layer15 = Conv2d(1024, 4096, 7, 1)
+        self.c_layer16 = Conv2d(1024, 30)
+        
+        self.mp_layer1 = MaxPool2d(2, stride=2)
+        
 
     def forward(self, x):
-        x = self.pool(F.relu(self.conv1(x)))
-        x = self.pool(F.relu(self.conv2(x)))
-        x = x.view(-1, 16 * 5 * 5)
-        x = F.relu(self.fc1(x))
-        x = F.relu(self.fc2(x))
-        x = self.fc3(x)
+        print(x.shape)
+        x = self.c_layer1(x)
+        x = self.mp_layer1(x)
+        x = self.c_layer2(x)
+        x = self.mp_layer1(x)
+        x = self.c_layer3(x)
+        x = self.c_layer4(x)
+        x = self.c_layer5(x)
+        x = self.c_layer6(x)
+        x = self.mp_layer1(x)
         
+        # x4
+        for i in range(4):
+            x = self.c_layer7(x)
+            x = self.c_layer8(x)
+
+        x = self.c_layer9(x)
+        x = self.c_layer10(x)
+        x = self.mp_layer1(x)
+
+        for i in range(2):
+            x = self.c_layer11(x)
+            x = self.c_layer12(x)
+
+        x = self.c_layer13(x)
+        x = self.c_layer14(x)
+        x = self.c_layer14(x)
+        x = self.c_layer15(x)
+
         return x
 
 
+if __name__ == "__main__":
+    #This is for testing purposes
+    model = YOLO()
+    image = read_image("/home/deveshdatwani/plane.jpg")
+    resized_image = Resize((448, 448), antialias=True)(image)
+    out = model(resized_image.float())
+    print(out.shape)
+
+    

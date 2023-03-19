@@ -33,7 +33,7 @@ Let's run it to see!
 
 Okay so have two locomotives in this sample image.
 
-The label formatting is as follows -> 
+The label values are normalized to the image dimensions and are as follows; 
 
 <i>centre x:float</i> 
 
@@ -43,8 +43,6 @@ The label formatting is as follows ->
 
 <i>width: float</i>
 
-These values are normalized to the image dimensions. 
-
 
 ### Model 
 
@@ -53,3 +51,10 @@ Constructing the YOLO model is a fairly straightforward task. The model architec
 Link to paper: https://arxiv.org/abs/1506.02640
 
 <p align="center"><img align="center" src="https://raw.githubusercontent.com/deveshdatwani/yolo/main/assets/network.png" height=300, width=500></p>
+
+The network can be found in the model module.
+
+To keep this doc short, I won't print out the summary of the model.
+
+
+### Training
