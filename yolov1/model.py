@@ -2,7 +2,7 @@
 import torch
 from torch import nn
 from torch.functional import F
-from torch.nn import Conv2d, MaxPool2d
+from torch.nn import Conv2d, MaxPool2d, LeakyReLU
 from torchvision.io import read_image
 from torchvision.transforms import Resize
 from matplotlib import pyplot as plt
@@ -39,9 +39,11 @@ class YOLO(nn.Module):
         self.c_layer16 = Conv2d(1024, 30)
         
         self.mp_layer1 = MaxPool2d(2, stride=2)
+
+        self.leaky_relu = LeakyReLU(0.01)
         
 
-    def forward(self, x):
+    def forward(self, x) :
         print(x.shape)
         x = self.c_layer1(x)
         x = self.mp_layer1(x)
@@ -62,6 +64,7 @@ class YOLO(nn.Module):
         x = self.c_layer10(x)
         x = self.mp_layer1(x)
 
+        # x2
         for i in range(2):
             x = self.c_layer11(x)
             x = self.c_layer12(x)
@@ -75,11 +78,15 @@ class YOLO(nn.Module):
 
 
 if __name__ == "__main__":
-    #This is for testing purposes
-    model = YOLO()
-    image = read_image("/home/deveshdatwani/plane.jpg")
-    resized_image = Resize((448, 448), antialias=True)(image)
-    out = model(resized_image.float())
-    print(out.shape)
+    
+    def test():
+        model = YOLO()
+        image = read_image("/home/deveshdatwani/plane.jpg")
+        resized_image = Resize((448, 448), antialias=True)(image)
+        out = model(resized_image.float())
+        print(out.shape)
 
+        return None
+
+    test()
     
