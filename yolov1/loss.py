@@ -12,9 +12,12 @@ class Criterion(nn.Module):
     The forward function implments the loss function of YOLO model as described in the paper
     """
 
-    def __init__(self, lambda_coord=5, lambda__nooj=0.5):
+    def __init__(self, lambda_coord=5, lambda__nooj=0.5, S=7, B=2, C=20):
         self.lambda_coord = lambda_coord    
         self.lambda_noobj = lambda__nooj
+        self.S = S
+        self.B = B
+        self.C = C
 
     def __forward__(self, x_output, target):
         loss = x_output - target
