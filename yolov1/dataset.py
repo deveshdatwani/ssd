@@ -6,6 +6,8 @@ import numpy as np
 from matplotlib import pyplot as plt
 from random import randint
 import cv2
+import torch
+import torchvision
 
 
 class imageDataset(Dataset):
@@ -34,16 +36,32 @@ class imageDataset(Dataset):
         return len(self._annotations)
     
     
-    def draw_bbox(self, image, label):
-        _, h, w = image.shape
-        numpy_image = image.numpy().transpose(1, 2, 0)
+    def draw_bbox(self, image: torch.Tensor, label):
+        # _, og_h, og_w = image.shape
+        # image = torchvision.transforms.Resize((448, 448), antialias=None)(image)
+        numpy_image = image.numpy().transpose(1, 2, 0).astype(np.uint8).copy()
+        h, w, _ = numpy_image.shape
+        # scale_factor_x = float(w / og_w)
+        # scale_factor_y = float(h / og_h)
         
         for c, x, y, width, height in label:
-            x1 = int(x*w - ((width*w) / 2))
-            y1 = int(y*h - ((height*h) / 2))
-            x2 = int(x*w + ((width*w) / 2))
-            y2 = int(y*h + ((height*h) / 2))
+            # x *= scale_factor_x * 1.05
+            # y *= scale_factor_y * 1.05
+            # width *= scale_factor_x * 1.05
+            # height *= scale_factor_y * 1.05
+            # grid_cell_x = x*w // (448 // 7) 
+            # grid_cell_y = y*h // (448 // 7)
+            # print(grid_cell_x, grid_cell_y)
+            
+            x1 = int(x*w - ((width*w) / 2)) 
+            y1 = int(y*h - ((height*h) / 2)) 
+            x2 = int(x*w + ((width*w) / 2)) 
+            y2 = int(y*h + ((height*h) / 2)) 
+
             numpy_image = cv2.rectangle(numpy_image, (x1, y1), (x2, y2), (0, 255, 0), 2)
+
+        plt.imshow(numpy_image)
+        plt.show()
 
         return numpy_image
     
@@ -55,10 +73,8 @@ class imageDataset(Dataset):
 
 
     def encode(self, labels, image):
-        tensor_label = np.zeros((self.S * self.S, self.C + 4 + 1))
-        numpy_image = self.draw_bbox(image, labels)
-        plt.imshow(numpy_image)
-        plt.show()
+        tensor_label = np.zeros((self.S, self.S, self.C + 4 + 1))
+        self.draw_bbox(image, labels)
         
         return tensor_label
 
@@ -78,5 +94,5 @@ class imageDataset(Dataset):
 if __name__ == "__main__":
     # testing
     trainset = imageDataset()
-    sample = trainset[1000]
+    sample = trainset[1023]
     ix_image, ix_label = sample.values()
