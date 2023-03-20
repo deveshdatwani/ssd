@@ -4,6 +4,7 @@ from torchvision.io import read_image
 import os
 import numpy as np
 from matplotlib import pyplot as plt
+from random import randint
 
 
 class imageDataset(Dataset):
@@ -20,6 +21,11 @@ class imageDataset(Dataset):
         self._annotations = pd.read_csv(os.path.join(annotation_file_address, "train.csv")).to_numpy()
         self._image_dataset = data_directory
         self._label_directory = os.path.join(annotation_file_address, "labels")
+        self.S = 7 # grid size
+        self.B = 2 # n bounding boxes
+        self.C = 20 # n classes
+        self.w = 448 
+        self.h = 448
 
 
     def __len__(self):
@@ -30,30 +36,29 @@ class imageDataset(Dataset):
         transformed_image = None
         
         return image
+
+    def encode(self, labels):
+        tensor_label = np.zeros((self.S * self.S, self.C + 4 + 1))
+        print(tensor_label.shape)
+        print(labels.shape)
+        print(labels)
     
+        return tensor_label
+
 
     def __getitem__(self, idx):
 
         image_path = os.path.join(self._image_dataset, self._annotations[idx, 0])
         image = read_image(image_path)
         label = np.loadtxt(os.path.join(self._label_directory, self._annotations[idx, 1]))
+        label = self.encode(label, image.w, image.h)
+        sample = {"image": image, "label": label}
         
-        return image, label
+        return sample
     
 
 if __name__ == "__main__":
-
-    def test():
-
-        # For testing purposes
-        # trainset = imageDataset()
-        # print(trainset.__len__())
-        # ix_image, ix_label = trainset[400]
-        # print(ix_label)
-        # print(ix_label.shape)
-        # plt.imshow(np.transpose(ix_image, axes=[1, 2, 0]))
-        # plt.show()
-
-        return None
-
-    test()
+    # testing
+    trainset = imageDataset()
+    sample = trainset[999]
+    ix_image, ix_label = sample.values()
