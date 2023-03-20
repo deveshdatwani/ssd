@@ -5,6 +5,7 @@ import os
 import numpy as np
 from matplotlib import pyplot as plt
 from random import randint
+import cv2
 
 
 class imageDataset(Dataset):
@@ -29,7 +30,22 @@ class imageDataset(Dataset):
 
 
     def __len__(self):
+
         return len(self._annotations)
+    
+    
+    def draw_bbox(self, image, label):
+        _, h, w = image.shape
+        numpy_image = image.numpy().transpose(1, 2, 0)
+        
+        for c, x, y, width, height in label:
+            x1 = int(x*w - ((width*w) / 2))
+            y1 = int(y*h - ((height*h) / 2))
+            x2 = int(x*w + ((width*w) / 2))
+            y2 = int(y*h + ((height*h) / 2))
+            numpy_image = cv2.rectangle(numpy_image, (x1, y1), (x2, y2), (0, 255, 0), 2)
+
+        return numpy_image
     
 
     def transform(self, image):
@@ -37,12 +53,13 @@ class imageDataset(Dataset):
         
         return image
 
-    def encode(self, labels):
+
+    def encode(self, labels, image):
         tensor_label = np.zeros((self.S * self.S, self.C + 4 + 1))
-        print(tensor_label.shape)
-        print(labels.shape)
-        print(labels)
-    
+        numpy_image = self.draw_bbox(image, labels)
+        plt.imshow(numpy_image)
+        plt.show()
+        
         return tensor_label
 
 
@@ -51,14 +68,15 @@ class imageDataset(Dataset):
         image_path = os.path.join(self._image_dataset, self._annotations[idx, 0])
         image = read_image(image_path)
         label = np.loadtxt(os.path.join(self._label_directory, self._annotations[idx, 1]))
-        label = self.encode(label, image.w, image.h)
+        self.encode(label, image)
         sample = {"image": image, "label": label}
         
         return sample
     
 
+
 if __name__ == "__main__":
     # testing
     trainset = imageDataset()
-    sample = trainset[999]
+    sample = trainset[1000]
     ix_image, ix_label = sample.values()
