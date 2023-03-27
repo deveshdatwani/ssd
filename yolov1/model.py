@@ -107,6 +107,8 @@ if __name__ == "__main__":
         image = read_image("/home/deveshdatwani/plane.jpg")
         resized_image = Resize((448, 448), antialias=True)(image)
         out = model(resized_image.float())
+        out = out.view(7, 7, 30)
+        print(torch.max(out, dim=2))
         
         return None
 
