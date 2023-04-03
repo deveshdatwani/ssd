@@ -3,6 +3,8 @@ from model import YOLO
 from torchvision.io import read_image
 from torchvision.transforms import Resize
 from torch.nn import MSELoss
+from utils import *
+import torch
 
 
 class Criterion(nn.Module):
@@ -23,21 +25,14 @@ class Criterion(nn.Module):
         self.im_height = im_height
         self.mse_loss = MSELoss(reduction="sum")
 
-    def __forward__(self, predictions, target):
-        loss = predictions - target
-        coordinate_loss = self.coordinate_loss(predictions, target)
-
-        return loss
-    
-    def IOU(self, x_output, target):
-        
-        return None
-    
-    def coordinate_loss(self):
-        loss = 0
-
-        return loss
-
+    def forward(self, predictions, target):
+        target = target.view(-1, 49, 30)
+        predictions = predictions.view(-1, 49, 25)
+        bbox1 = predictions[:, :, 1:5]
+        bbox2 = predictions[:, :, 6:10]
+        bbox1and2 = torch.cat((bbox1, bbox2), dim=2)
+        iouBoxes = 
+        bboxTarget = target[:, :, ]
 
 if __name__ == "__main__":
 
@@ -46,7 +41,9 @@ if __name__ == "__main__":
         image = read_image("/home/deveshdatwani/plane.jpg")
         resized_image = Resize((448, 448), antialias=True)(image)
         out = model(resized_image.float())
+        target = torch.rand((1, 49, 5))
         criterion = Criterion()
+        criterion(out, target)
 
         return None
     
