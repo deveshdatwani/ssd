@@ -3,45 +3,36 @@ from torch import nn
 """ 
 author: devesh datwani
 
-Utils for clean code
+utils for clean code
 """
 
-def iou(box1_x, box1_y, box1_h, box1_w, box2_x, box2_y, box2_h, box2_w):
-    
-    box1_top_left_x = box1_x - box1_w // 2        
-    box1_top_left_y = box1_y - box1_h // 2
-    
-    box1_bottom_left_x = box1_x + box1_w // 2        
-    box1_bottom_left_y = box1_y + box1_h // 2
+import torch
+torch.manual_seed(0)
 
-    box2_top_left_x = box2_x - box2_w // 2        
-    box2_top_left_y = box2_y - box2_h // 2
-    box2_bottom_left_x = box2_x + box2_w // 2        
-    box2_bottom_left_y = box2_y + box2_h // 2
-
-    top_x = max(box1_top_left_x, box2_top_left_x)
-    top_y = max(box1_top_left_y, box2_top_left_y)
-
-    bottom_x = min(box1_bottom_left_x, box2_bottom_left_x)
-    bottom_y = min(box1_bottom_left_y, box2_bottom_left_y)
-
-    intersection = (bottom_x - top_x) * (bottom_y - top_y)
-
-    return intersection
-
-def iouTensor(target, predictions):
-    """ 
-    Args: predictions: batch_size x 49 x bbox1 x bbox2
-          target: batch_size x 49 x bbox 
+def IoU(bbox1, bbox2, target):
     """
-    bbox1 = predictions[:,:,1:5]
-    bbox2 = predictions[:,:,5:9]
-    targetbox = target[:,:,:4]
+    Args: bbox1: batch size, 7, 7, 4
+          bbox2: batch size, 7, 7, 4 
+    """
 
-    box1topLeftX = bbox1[...,0] - bbox1[...,2] // 2 
-    box1topLefty = bbox1[...,1] - bbox1[...,3] // 2
+    xybbox1 = bbox1.reshape(-1, 49, 4)[:,:,:2]
+    whbbox1 = bbox1.reshape(-1, 49, 4)[:,:,2:4]
 
-    box1bottomRightX = bbox2[...,0] + bbox1[...,2] // 2 
-    box1bottomRighty = bbox2[...,1] + bbox1[...,3] // 2
+    xybbox2 = bbox2.reshape(-1, 49, 4)[:,:,:2]
+    whbbox2 = bbox2.reshape(-1, 49, 4)[:,:,2:4]
+
+    xyleftbbox1 = xybbox1 + (whbbox1 // 2)
+    xyrightbbox1 = xybbox1 - (whbbox1 // 2)
+
+    return None
 
 
+def objectExists(target):
+
+    return torch.nonzero(target[:,:,0])
+
+
+bbox1 = torch.randint(0, 2, size=(1,49,4))
+
+
+see = torch.zeros(size=(1,49,4))[torch.nonzero(bbox1[:,:,0])]
