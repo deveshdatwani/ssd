@@ -57,4 +57,14 @@ The network can be found in the model module.
 To keep this doc short, I won't print out the summary of the model.
 
 
-### Training
+### Objective Function 
+
+The objective function for the Yolo V1 network is to minimize a multipart function. It is as follows 
+
+<p align="center"><img align="center" src="https://raw.githubusercontent.com/deveshdatwani/yolo/main/assets/objective.png" height=300, width=500></p>
+
+This is by far the trickiest part during setting up the model and its training. 
+
+The part that I struggled with most was not comprehending that the implementation of the loss function requires masking which can be very ingeniously implemented with torch classes and their member functions.
+
+
