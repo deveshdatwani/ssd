@@ -11,14 +11,14 @@ import torchvision
 
 
 class imageDataset(Dataset):
-    """
-    author: devesh datwani
+    '''
+    Author: Devesh Datwani
 
     Class for loading fetching images for training
     As per pytorch, __len__ and __getitem__ have been overloaded to return the length of the dataset and also index a sample
     There is an option of writing transforms for data augmentation. The transforms have to be applied to the annotations as well 
     ** In this first iteration, I do not want to introduce any transform due to limited compute, but this can be explored later ** 
-    """
+    '''
     
     def __init__(self, data_directory="/home/deveshdatwani/Datasets/voc/images", annotation_file_address="/home/deveshdatwani/Datasets/voc") -> object:
         self._annotations = pd.read_csv(os.path.join(annotation_file_address, "train.csv")).to_numpy()
@@ -36,13 +36,19 @@ class imageDataset(Dataset):
         return len(self._annotations)
     
     
-    def draw_bbox(self, image: torch.Tensor, label):
-        # _, og_h, og_w = image.shape
-        # image = torchvision.transforms.Resize((448, 448), antialias=None)(image)
+    def draw_bbox(self, image: np.ndarray, label):
+        '''
+        
+        Args:
+        image: np.ndarray H * W * C
+        
+        '''
         numpy_image = image.numpy().transpose(1, 2, 0).astype(np.uint8).copy()
         h, w, _ = numpy_image.shape
+        # _, og_h, og_w = image.shape
         # scale_factor_x = float(w / og_w)
         # scale_factor_y = float(h / og_h)
+        # image = torchvision.transforms.Resize((448, 448), antialias=None)(image)
         
         for c, x, y, width, height in label:
             # x *= scale_factor_x * 1.05
@@ -52,7 +58,6 @@ class imageDataset(Dataset):
             # grid_cell_x = x*w // (448 // 7) 
             # grid_cell_y = y*h // (448 // 7)
             # print(grid_cell_x, grid_cell_y)
-            
             x1 = int(x*w - ((width*w) / 2)) 
             y1 = int(y*h - ((height*h) / 2)) 
             x2 = int(x*w + ((width*w) / 2)) 
@@ -89,7 +94,6 @@ class imageDataset(Dataset):
         
         return sample
     
-
 
 if __name__ == "__main__":
     # testing

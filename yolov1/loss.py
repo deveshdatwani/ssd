@@ -9,8 +9,6 @@ import torch
 
 class Criterion(nn.Module):
     """
-    author: devesh datwani
-
     This class inherits from the Module class and calculates loss value for a given prediction
     The forward function implments the loss function of YOLO model as described in the paper
     """
@@ -26,25 +24,16 @@ class Criterion(nn.Module):
         self.mse_loss = MSELoss(reduction="sum")
 
     def forward(self, predictions, target):
-        target = target.view(-1, 49, 30)
-        predictions = predictions.view(-1, 49, 25)
-        bbox1 = predictions[:, :, 1:5]
-        bbox2 = predictions[:, :, 6:10]
-        bbox1and2 = torch.cat((bbox1, bbox2), dim=2)
-        iouBoxes = 
-        bboxTarget = target[:, :, ]
+        
+        # This is not going to be easy  
+
+        return None
+
 
 if __name__ == "__main__":
 
-    def test():
-        model = YOLO()
-        image = read_image("/home/deveshdatwani/plane.jpg")
-        resized_image = Resize((448, 448), antialias=True)(image)
-        out = model(resized_image.float())
-        target = torch.rand((1, 49, 5))
-        criterion = Criterion()
-        criterion(out, target)
 
-        return None
-    
-    test()
+    out = torch.rand((1,7,7,30))
+    target = torch.rand((1, 7, 7, 30))
+    criterion = Criterion()
+    criterion(out, target)
