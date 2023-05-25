@@ -9,8 +9,7 @@ import torch
 
 class Criterion(nn.Module):
     '''
-    Implments loss function of YOLO V1 model as per the paper
-    https://arxiv.org/pdf/1506.02640.pdf 
+    Implments loss function of YOLO V1 model as per the paper: www.arxiv.org/pdf/1506.02640.pdf 
     '''
     def __init__(
             self, 
