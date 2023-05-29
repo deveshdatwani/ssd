@@ -1,23 +1,20 @@
-from torch.utils.data import Dataset
-import pandas as pd
-from torchvision.io import read_image
 import os
-import numpy as np
-from matplotlib import pyplot as plt
-from random import randint
 import cv2
 import torch
 import torchvision
+import numpy as np
+import pandas as pd
+from random import randint
+from utils import visualize_sample
+from matplotlib import pyplot as plt
+from torch.utils.data import Dataset
+from torchvision.io import read_image
 
 
 class imageDataset(Dataset):
     '''
     Author: Devesh Datwani
-
     Class for loading fetching images for training
-    As per pytorch, __len__ and __getitem__ have been overloaded to return the length of the dataset and also index a sample
-    There is an option of writing transforms for data augmentation. The transforms have to be applied to the annotations as well 
-    ** In this first iteration, I do not want to introduce any transform due to limited compute, but this can be explored later ** 
     '''
     
     def __init__(self, data_directory="/home/deveshdatwani/Datasets/voc/images", annotation_file_address="/home/deveshdatwani/Datasets/voc") -> object:
@@ -32,60 +29,15 @@ class imageDataset(Dataset):
 
 
     def __len__(self):
-
         return len(self._annotations)
     
-    
-    def draw_bbox(self, image: np.ndarray, label):
-        '''
-        
-        Args:
-        image: np.ndarray H * W * C
-        
-        '''
-        numpy_image = image.numpy().transpose(1, 2, 0).astype(np.uint8).copy()
-        h, w, _ = numpy_image.shape
-
-        for c, x, y, width, height in label:
-            x1 = int(x*w - ((width*w) / 2)) 
-            y1 = int(y*h - ((height*h) / 2)) 
-            x2 = int(x*w + ((width*w) / 2)) 
-            y2 = int(y*h + ((height*h) / 2)) 
-
-            numpy_image = cv2.rectangle(numpy_image, (x1, y1), (x2, y2), (0, 255, 0), 2)
-
-        plt.imshow(numpy_image)
-        plt.show()
-
-        return numpy_image
-    
-
-    def transform(self, image):
-        transformed_image = None
-        
-        return image
-
-
-    def encode(self, labels, image):
-        tensor_label = np.zeros((self.S, self.S, self.C + 4 + 1))
-        self.draw_bbox(image, labels)
-        
-        return tensor_label
-
 
     def __getitem__(self, idx):
 
         image_path = os.path.join(self._image_dataset, self._annotations[idx, 0])
         image = read_image(image_path)
         label = np.loadtxt(os.path.join(self._label_directory, self._annotations[idx, 1]))
-        self.encode(label, image)
         sample = {"image": image, "label": label}
         
         return sample
     
-
-if __name__ == "__main__":
-    # testing
-    trainset = imageDataset()
-    sample = trainset[1023]
-    ix_image, ix_label = sample.values()

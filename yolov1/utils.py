@@ -1,8 +1,10 @@
+import os
 import cv2
 import torch
 import numpy as np
 torch.manual_seed(0)
 from torch import nn
+from math import sqrt
 from matplotlib import pyplot as plt
 
 
@@ -76,7 +78,7 @@ class dataVisualizer():
         image_list = os.listdir(self._data_directory)
         
         for i in range(self.number_of_images):
-            random_id = randint(0, len(image_list)-1)
+            random_id = np.random.randint(0, len(image_list)-1)
             image_name = image_list[random_id]
             image = cv2.imread(os.path.join(self._data_directory, image_name))
             plt.subplot(image_cell, image_cell, i+1)
