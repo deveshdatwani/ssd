@@ -19,8 +19,6 @@ def IoU(bbox1: torch.tensor, bbox2: torch.tensor, target: torch.tensor):
     leftbbox1 = xybbox1 - (whbbox1 // 2)
     rightbbox1 = xybbox1 + (whbbox1 // 2)
 
-    print(leftbbox1.shape)
-
     xybbox2 = bbox1[:,:,:,:2]
     whbbox2 = bbox1[:,:,:,2:4]
 
@@ -50,3 +48,47 @@ def visualize_sample(image: torch.tensor, label: np.ndarray):
     plt.show()
 
     return None
+
+
+# Class for visualizing image samples in a grid
+class dataVisualizer():
+    """
+    author: devesh datwani 
+    
+    This class creates a visualizer for an image dataset through matplotlib
+    Args: 
+    cols <int> - number of columns
+    rows <int> - number of rows
+    data_directory <str> - address to data directory 
+    number_of_images <int> - number of images to be displayed
+    """
+    
+    def __init__(self, cols=5, rows=2, data_directory=None, number_of_images=25) -> None:
+        self._cols = cols
+        self._rows = rows
+        self._data_directory = data_directory
+        self._figsize = (10,10)
+        self.number_of_images = number_of_images
+
+
+    def visualize(self) -> None:
+        image_cell = int(sqrt(self.number_of_images))
+        image_list = os.listdir(self._data_directory)
+        
+        for i in range(self.number_of_images):
+            random_id = randint(0, len(image_list)-1)
+            image_name = image_list[random_id]
+            image = cv2.imread(os.path.join(self._data_directory, image_name))
+            plt.subplot(image_cell, image_cell, i+1)
+            plt.imshow(image)
+        
+        plt.show()
+        
+    
+    def set_grid_size(self, cols: int, rows: int) -> None:
+        self.cols = cols
+        self.rows = rows
+
+
+    def set_figsize(self, figsize: tuple) -> None:
+        self._figsize = figsize

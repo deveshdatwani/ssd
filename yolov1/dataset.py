@@ -45,19 +45,8 @@ class imageDataset(Dataset):
         '''
         numpy_image = image.numpy().transpose(1, 2, 0).astype(np.uint8).copy()
         h, w, _ = numpy_image.shape
-        # _, og_h, og_w = image.shape
-        # scale_factor_x = float(w / og_w)
-        # scale_factor_y = float(h / og_h)
-        # image = torchvision.transforms.Resize((448, 448), antialias=None)(image)
-        
+
         for c, x, y, width, height in label:
-            # x *= scale_factor_x * 1.05
-            # y *= scale_factor_y * 1.05
-            # width *= scale_factor_x * 1.05
-            # height *= scale_factor_y * 1.05
-            # grid_cell_x = x*w // (448 // 7) 
-            # grid_cell_y = y*h // (448 // 7)
-            # print(grid_cell_x, grid_cell_y)
             x1 = int(x*w - ((width*w) / 2)) 
             y1 = int(y*h - ((height*h) / 2)) 
             x2 = int(x*w + ((width*w) / 2)) 
