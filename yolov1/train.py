@@ -7,68 +7,6 @@ from utils import *
 import os
 
 
-
-class yoloTrainer():
-    """    
-    author: devesh datwani
-
-    Class for training the yolo network
-    Constructor is aimed at making the trainer flexible and modular
-    Batch size, learning rate, decay and much more can be changed while building the trainer    
-    """
-
-
-    def __init__(self, batch_size, epochs, learning_rate,
-                 momentum, num_workers, weight_decay, 
-                 save_folder="./weights/"):
-        
-        self._batch_size = batch_size
-        self._epochs = epochs
-        self._learning_rate = learning_rate
-        self._momentum = momentum
-        self._num_workers = num_workers
-        self._save_folder = save_folder
-        self._weight_decay = weight_decay
-        self._pre_train = True
-        self._weight_file = os.path.join(self._save_folder, "yolo.h5")
-
-
-    def load_weights(self, model):
-        # load weights here
-        
-        return model
-
-    def loss(self):
-        return None 
-
-
-    def criterion(self):
-        return None
-    
-    
-    def interation(self):
-        return None
-
-
-    def train(self):
-        model = YOLO()
-        print("Looking for weights in weight folder")
-        
-        if not os.path.isfile(self._weight_file):
-            print("No weights found, initializing training")
-        else:
-            model.load_state_dict(torch.load(self._weight_file))
-            print("Pretrained the model")
-        
-        self._optimizer = SGD(model.parameters(), self._learning_rate, self._momentum, weight_decay=self._weight_decay)
-
-        for epoch in range(self._epochs):
-            loss = None
-
-        return model
-
-
-
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="argument parser for training yolo network")
