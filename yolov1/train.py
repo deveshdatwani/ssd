@@ -18,8 +18,3 @@ if __name__ == "__main__":
     parser.add_argument('--num-workers', default=4, type=int, help="set number of workers for parellel compute")
 
     args = parser.parse_args()
-    trainer = yoloTrainer(args.batch_size, args.epochs, args.learning_rate,
-                          args.momentum, args.num_workers, args.weight_decay)
-    
-    model = trainer.train()
-    
