@@ -9,12 +9,6 @@ from matplotlib import pyplot as plt
 
 
 def IoU(bbox1: torch.tensor, bbox2: torch.tensor, target: torch.tensor):
-    '''
-    Args: bbox1 shape: batch_size, 7, 7, 4
-          bbox2 shape: batch_size, 7, 7, 4 
-          target shape: batch_size, 7, 7, 4
-    '''
-
     xybbox1 = bbox1[:,:,:,:2]
     whbbox1 = bbox1[:,:,:,2:4]
 
@@ -31,10 +25,6 @@ def IoU(bbox1: torch.tensor, bbox2: torch.tensor, target: torch.tensor):
 
 
 def visualize_sample(image: torch.tensor, label: np.ndarray):
-    '''
-    Args: Image: np.ndarray H * W * C
-    '''
-
     numpy_image = image.numpy().transpose(1, 2, 0).astype(np.uint8).copy()
     h, w, _ = numpy_image.shape
     
@@ -52,19 +42,7 @@ def visualize_sample(image: torch.tensor, label: np.ndarray):
     return None
 
 
-# Class for visualizing image samples in a grid
 class dataVisualizer():
-    """
-    author: devesh datwani 
-    
-    This class creates a visualizer for an image dataset through matplotlib
-    Args: 
-    cols <int> - number of columns
-    rows <int> - number of rows
-    data_directory <str> - address to data directory 
-    number_of_images <int> - number of images to be displayed
-    """
-    
     def __init__(self, cols=5, rows=2, data_directory=None, number_of_images=25) -> None:
         self._cols = cols
         self._rows = rows
@@ -94,3 +72,8 @@ class dataVisualizer():
 
     def set_figsize(self, figsize: tuple) -> None:
         self._figsize = figsize
+
+
+def intersection_over_union():
+
+    return None
