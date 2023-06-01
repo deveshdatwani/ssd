@@ -4,6 +4,7 @@ import torch
 import torchvision
 import numpy as np
 import pandas as pd
+from PIL import Image
 from random import randint
 from utils import visualize_sample
 from matplotlib import pyplot as plt
@@ -11,33 +12,55 @@ from torch.utils.data import Dataset
 from torchvision.io import read_image
 
 
-class imageDataset(Dataset):
-    '''
-    Author: Devesh Datwani
-    Class for loading fetching images for training
-    '''
-    
-    def __init__(self, data_directory="/home/deveshdatwani/Datasets/voc/images", annotation_file_address="/home/deveshdatwani/Datasets/voc") -> object:
-        self._annotations = pd.read_csv(os.path.join(annotation_file_address, "train.csv")).to_numpy()
-        self._image_dataset = data_directory
-        self._label_directory = os.path.join(annotation_file_address, "labels")
-        self.S = 7 # grid size
-        self.B = 2 # n bounding boxes
-        self.C = 20 # n classes
-        self.w = 448 
-        self.h = 448
+class VOCDatase(Dataset):
+    def __init__(
+            self, csv_file, img_dir, label_dir, S=7, B=2, C=20, transform=None 
+    ):
+        self.annotations = pd.read_csv(csv_file)
+        self.img_dir = img_dir
+        self.label_dir = label_dir
+        self.transform = transform
+        self.C = C
+        self.S = S
+        self.B = B
 
 
     def __len__(self):
-        return len(self._annotations)
-    
-
-    def __getitem__(self, idx):
-
-        image_path = os.path.join(self._image_dataset, self._annotations[idx, 0])
-        image = read_image(image_path)
-        label = np.loadtxt(os.path.join(self._label_directory, self._annotations[idx, 1]))
-        sample = {"image": image, "label": label}
+        return len(self.annotations)
         
-        return sample
-    
+
+    def __getitem__(self, index):
+        label_path = os.path.join(self.label_dir, self.annotations.iloc[index, 1]) 
+        boxes = []
+        with open(label_path) as f:
+            for label in f.readlines():
+                class_label, x, y, w, h = [float(x) if float(x) != int(float(x)) else int(x) for x in label.replace('\n', '').split()] 
+            boxes.append([class_label, x, y, w, h])
+
+            img_path = os.path.join(self.img_dir, self.annotations.iloc[index, 0])
+            image = Image.open(img_path)
+            boxes = torch.tensor(boxes)
+
+            if self.transform:
+                image, box = self.transform(image, boxes) 
+            
+            label_matrix = torch.zeros((self.S, self.S, self.C + 5))
+
+            for box in boxes:
+                class_label, x, y, w, h = box.tolist()
+                class_label = int(class_label)
+
+                i, j = int(self.S * y), int(self.S * x) 
+                width_cell, height_cell = w * self.S, h * self.S
+
+                # It is easier to train ''' OFFSET ''' than what is being implemented 
+
+                if label_matrix[i,j,20] == 0:
+                    label_matrix[i, j, 20] = 1
+                    box_coordinates = torch.tensor([i, j, width_cell, height_cell]) 
+                    label_matrix[i, j, 21:25] = box_coordinates
+                    label_matrix[i, j, class_label] = 1
+            
+            return image, label_matrix
+
+        

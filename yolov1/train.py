@@ -1,14 +1,13 @@
+import os
 import torch
-import torchvision
 import argparse
+import torchvision
+from utils import *
 from model import YOLO
 from torch.optim import SGD
-from utils import *
-import os
 
 
 if __name__ == "__main__":
-
     parser = argparse.ArgumentParser(description="argument parser for training yolo network")
     parser.add_argument('--batch-size', default=4, type=int, help="set batch size for mini batch gradient descent")
     parser.add_argument('--epochs', default=10, type=int, help="set number of epochs to train for")
